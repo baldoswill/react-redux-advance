@@ -27,7 +27,8 @@ const Cart = (props) => {
       <h2>Your Shopping Cart</h2>
       <ul>
         {cartItems && cartItems.map(cartItem => {
-          return <CartItem key={cartItem.id}
+          return <CartItem 
+            key={cartItem.id}
             item={{ title: cartItem.title, quantity:  cartItem.quantity, price: cartItem.price, total: cartItem.totalPrice }}
             addItem = {e => addItemHandler({ title: cartItem.title, price: cartItem.price, description: cartItem.description, id: cartItem.id })}
             removeItem = {e => removeItemHandler(cartItem.title)}
