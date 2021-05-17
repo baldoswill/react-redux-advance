@@ -1,11 +1,13 @@
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { uiActions } from './store/ui';
+
+import { sendCartData, fetchCartData } from './store/cart-actions';
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
+
 
 let isInitial = true;
 
@@ -17,57 +19,70 @@ function App() {
   const notification = useSelector(state => state.uiReducer.notification);
   const cart = useSelector(state => state.cartReducer);
 
+
+  useEffect(() => {
+    dispatch(fetchCartData());
+  }, [dispatch])
+
   useEffect(() => {
 
-    const saveCart = async () => {
+    // const saveCart = async () => {
 
-      // dispatch(uiActions.showNotification(
-      //   {
-      //     title: 'Loading',
-      //     message: 'Saving data...',
-      //     status: 'loading'
-      //   }));
+    //   // dispatch(uiActions.showNotification(
+    //   //   {
+    //   //     title: 'Loading',
+    //   //     message: 'Saving data...',
+    //   //     status: 'loading'
+    //   //   }));
 
 
-      // const response = await fetch('https://redux-advance-3f4e1-default-rtdb.firebaseio.com/cart.json'
-      //   , { method: 'PUT', body: JSON.stringify(cart) }
-      // );    
+    //   // const response = await fetch('https://redux-advance-3f4e1-default-rtdb.firebaseio.com/cart.json'
+    //   //   , { method: 'PUT', body: JSON.stringify(cart) }
+    //   // );    
 
-      // if(!response.ok){
-      //   throw new Error('Sending data cart failed..');
-      // }
+    //   // if(!response.ok){
+    //   //   throw new Error('Sending data cart failed..');
+    //   // }
 
-      dispatch(uiActions.showNotification(
-        {
-          title: 'Success',
-          message: 'Successfully saved data',
-          status: 'success'
-        }));
-    }
+    //   // dispatch(uiActions.showNotification(
+    //   //   {
+    //   //     title: 'Success',
+    //   //     message: 'Successfully saved data',
+    //   //     status: 'success'
+    //   //   }));
+    // }
 
-    if(isInitial){
+   
+    // saveCart().catch(() => {
+    //   dispatch(uiActions.showNotification(
+    //     {
+    //       title: 'Error',
+    //       message: 'Something went happened',
+    //       status: 'error'
+    //     }));
+    // });
+
+     
+    // const timeId = setTimeout(() => {
+    //   // After 3 seconds set the show value to false
+    //   dispatch(uiActions.showNotification(null));
+    // }, 6000)
+
+    // return () => {
+    //   clearTimeout(timeId)
+    // }
+
+    
+    if(!isInitial){
       isInitial = false;
       return;
     }
 
-    saveCart().catch(() => {
-      dispatch(uiActions.showNotification(
-        {
-          title: 'Error',
-          message: 'Something went happened',
-          status: 'error'
-        }));
-    });
-
-    const timeId = setTimeout(() => {
-      // After 3 seconds set the show value to false
-      dispatch(uiActions.showNotification(null));
-    }, 6000)
-
-    return () => {
-      clearTimeout(timeId)
-    }
- 
+   if(cart.changed){
+    dispatch(sendCartData(cart));
+   }
+    
+     
 
   }, [cart, dispatch])
 
