@@ -7,8 +7,12 @@ const Notification = props => {
         specialClasses = classes.error;
     }
 
-    if(true){
-        specialClasses = classes.error;
+    if(props.status === 'success'){
+        specialClasses = classes.success;
+    }
+
+    if(props.status === 'loading'){
+        specialClasses = classes.loading;
     }
 
     const cssClasses = `${classes.notification} ${specialClasses}`;
@@ -16,8 +20,8 @@ const Notification = props => {
     return (
         <section className = {cssClasses}>
              
-            <h2>Hello Wordl</h2>
-            <p>You succeeded in life</p>
+            <h2>{props.title}</h2>
+            <p>{props.message}</p>
         </section>
     )
 }
